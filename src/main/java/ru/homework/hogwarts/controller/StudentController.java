@@ -1,6 +1,8 @@
 package ru.homework.hogwarts.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
+import ru.homework.hogwarts.model.Faculty;
 import ru.homework.hogwarts.model.Student;
 import ru.homework.hogwarts.service.StudentService;
 import java.util.Collection;
@@ -44,5 +46,23 @@ public class StudentController {
     public Collection<Student> getStudentsByAge(@PathVariable("age") Integer age) {
         return this.studentService.getStudentsByAge(age);
     }
+
+      @GetMapping("/between_age")
+      public Collection<Student> getStunetByAgeBeetween(@RequestParam Integer min, @RequestParam Integer max) {
+          return studentService.findByAgeBetween(min,max);
+      }
+
+    @GetMapping("/studentbyfaculty/{id}")
+    @Operation (summary = "Получение факультета по заданному id студента")
+    public Faculty getFaculty(@PathVariable("id") Long id) {
+        return this.studentService.searchStudent(id).getFaculty();
+    }
+
+    @GetMapping("/studentsbyfaculty/{id}")
+    @Operation (summary = "Получение всех студентов по заданному id факультету")
+    public Collection<Student> getStudentsByFaculty(@PathVariable("id") Long id) {
+        return this.studentService.getStudentsByFaculty(id);
+    }
+
 
 }
