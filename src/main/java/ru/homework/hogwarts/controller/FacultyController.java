@@ -2,6 +2,7 @@ package ru.homework.hogwarts.controller;
 
 import org.springframework.web.bind.annotation.*;
 import ru.homework.hogwarts.model.Faculty;
+import ru.homework.hogwarts.model.Student;
 import ru.homework.hogwarts.service.FacultyService;
 
 import java.util.Collection;
@@ -37,7 +38,13 @@ public class FacultyController {
     }
 
     @GetMapping
-    public Collection<Faculty> getAllFaculty() {
+    public Collection<Faculty> getAllFaculty(@RequestParam(required = false) String name, @RequestParam(required = false) String color) {
+        if (name != null && !name.isBlank()) {
+            return this.facultyService.getFacultyByName(name);
+        }
+        if (color != null && !color.isBlank()) {
+            return this.facultyService.getFacultyByColor(color);
+        }
         return this.facultyService.getAllFacultys();
     }
 
